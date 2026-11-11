@@ -1,0 +1,77 @@
+<div class="page">
+  <header>
+    <div>
+      <h1>Credit Risk & Transaction Analytics</h1>
+      <p>Risk scoring, fraud-pattern analysis, and portfolio insights.</p>
+    </div>
+  </header>
+
+  <p *ngIf="loading">Loading analytics…</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <section class="kpis" *ngIf="summary">
+    <div class="card">
+      <span>Transactions</span>
+      <strong>{{ summary.transactions | number }}</strong>
+    </div>
+    <div class="card">
+      <span>Customers</span>
+      <strong>{{ summary.customers | number }}</strong>
+    </div>
+    <div class="card">
+      <span>Average Risk Score</span>
+      <strong>{{ summary.avg_risk_score }}</strong>
+    </div>
+    <div class="card">
+      <span>High-Risk Accounts</span>
+      <strong>{{ summary.high_risk_accounts }}</strong>
+    </div>
+    <div class="card">
+      <span>Average Utilization</span>
+      <strong>{{ pct(summary.avg_utilization) }}</strong>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Risk Distribution</h2>
+    <div class="risk-grid">
+      <div class="risk-box" *ngFor="let row of riskDistribution">
+        <span>{{ row.risk_band }}</span>
+        <strong>{{ row.accounts }}</strong>
+        <small>Avg score: {{ row.avg_score }}</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Highest-Risk Accounts</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Account</th>
+            <th>State</th>
+            <th>Credit Score</th>
+            <th>Utilization</th>
+            <th>Late/Missed</th>
+            <th>Avg Days Late</th>
+            <th>Risk Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of highRiskAccounts">
+            <td>{{ row.risk_rank }}</td>
+            <td>{{ row.account_id }}</td>
+            <td>{{ row.state }}</td>
+            <td>{{ row.credit_score }}</td>
+            <td>{{ pct(row.utilization) }}</td>
+            <td>{{ row.late_or_missed_payments }}</td>
+            <td>{{ row.avg_days_late }}</td>
+            <td>{{ row.risk_score }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
